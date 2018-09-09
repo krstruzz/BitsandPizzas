@@ -3,11 +3,15 @@ package com.struzzwebsolutions.bitsandpizzas
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.view.Menu
 import android.view.MenuItem
 import android.support.v7.widget.Toolbar
 import android.support.v7.widget.ShareActionProvider
 import android.support.v4.view.MenuItemCompat
+import android.support.v4.view.ViewPager
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +22,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        //Attach the SectionsPagerAdapter to the ViewPager
+        val pagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        val pager: ViewPager = findViewById(R.id.pager)
+        pager.adapter = pagerAdapter
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,5 +61,24 @@ class MainActivity : AppCompatActivity() {
 
         }
         return true
+    }
+
+    private class SectionsPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
+
+        override fun getCount(): Int {
+            return 4
+        }
+
+        override fun getItem(position: Int): Fragment? {
+            return when (position) {
+                0 -> TopFragment()
+                1 -> PizzaFragment()
+                2 -> PastaFragment()
+                3 -> StoresFragment()
+                else -> null
+            }
+
+        }
+
     }
 }
